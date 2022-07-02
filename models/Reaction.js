@@ -4,22 +4,25 @@ const { Schema, model } = require("mongoose");
 // Schema to create Student model
 const reactionSchema = new Schema(
   {
-    first: {
-      type: String,
-      required: true,
+    reactionId: {
+      type: ObjectId(),
+      // default set to a new ObjectId
       max_length: 50,
     },
-    last: {
+    reactionBody: {
       type: String,
       required: true,
-      max_length: 50,
+      max_length: 280,
     },
-    github: {
+    username: {
       type: String,
       required: true,
-      max_length: 50,
     },
-    assignments: [assignmentSchema],
+    createdAt: {
+      type: Date,
+      // set default to the current timestamp
+      // use a getter method to format timestamp on query
+    },
   },
   {
     toJSON: {

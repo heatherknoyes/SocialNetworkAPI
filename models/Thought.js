@@ -1,25 +1,27 @@
 const { Schema, model } = require("mongoose");
-// const assignmentSchema = require('./Assignment');
+const reactionSchema = require("./Reaction");
 
 // Schema to create Student model
 const thoughtSchema = new Schema(
   {
-    first: {
+    thoughtText: {
       type: String,
       required: true,
-      max_length: 50,
+      max_length: 200,
     },
-    last: {
+    createdAt: {
+      type: Date,
+      required: true,
+      // set default value
+      // getter method to format the timestamp on query
+    },
+    username: {
       type: String,
       required: true,
-      max_length: 50,
     },
-    github: {
-      type: String,
-      required: true,
-      max_length: 50,
-    },
-    assignments: [assignmentSchema],
+    reactions: [reactionSchema],
+
+    // need to add a virtual here for reactionCount that gets the length of the field above
   },
   {
     toJSON: {
