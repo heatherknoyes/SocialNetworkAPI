@@ -9,7 +9,6 @@ const userSchema = new Schema(
       unique: true,
       required: true,
       trim: true,
-      max_length: 50,
     },
     email: {
       type: String,
@@ -17,8 +16,9 @@ const userSchema = new Schema(
       required: true,
       match: /.+\@.+\..+/,
     },
-    thoughts: [thoughtSchema],
-    friends: [userSchema],
+    thoughts: [thoughtSchema._id],
+    friends: [this._id],
+    // need to add a virtual here for friendCount that gets the length of the field above
   },
   {
     toJSON: {

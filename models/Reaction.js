@@ -1,12 +1,13 @@
-const { Schema, model } = require("mongoose");
+const { Schema } = require("mongoose");
+const ObjectId = require("mongodb").ObjectId;
 // const assignmentSchema = require('./Assignment');
 
-// Schema to create Student model
+// Schema to create reaction schema
 const reactionSchema = new Schema(
   {
     reactionId: {
-      type: ObjectId(),
-      // default set to a new ObjectId
+      type: ObjectId,
+      default: new ObjectId(),
       max_length: 50,
     },
     reactionBody: {
@@ -20,7 +21,7 @@ const reactionSchema = new Schema(
     },
     createdAt: {
       type: Date,
-      // set default to the current timestamp
+      default: Date.now,
       // use a getter method to format timestamp on query
     },
   },
@@ -31,6 +32,6 @@ const reactionSchema = new Schema(
   }
 );
 
-const Reaction = model("reaction", reactionSchema);
+// const Reaction = model("reaction", reactionSchema);
 
-module.exports = Reaction;
+module.exports = reactionSchema;
