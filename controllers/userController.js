@@ -2,8 +2,6 @@
 const { ObjectId } = require("mongoose").Types;
 const { User, Thought } = require("../models");
 
-//   updateSingleUser,
-
 // TODO: Create an aggregate function to get the number of students overall
 // const headCount = async () =>
 //   Student.aggregate()
@@ -71,6 +69,11 @@ module.exports = {
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
+  updateSingleUser(req, res) {
+    User.findOneAndUpdate({ _id: req.params.userId }, req.body, { new: true })
+      .then((user) => res.json(user))
+      .catch((err) => res.status(500).json(err));
+  },
   // Delete a user and remove them from the site
   // deleteSingleUser(req, res) {
   //   User.findOneAndRemove({ _id: req.params.userId })
@@ -98,8 +101,6 @@ module.exports = {
 
   // Add a friend to the user
   createFriend(req, res) {
-    console.log("You are adding a friend");
-    console.log(req.params.friendId);
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $addToSet: { friends: req.params.friendId } },
@@ -116,8 +117,8 @@ module.exports = {
   deleteFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $pull: { friends: { friendId: req.params.friendId } } },
-      { runValidators: true, new: true }
+      { $pull: { friends: req.params.friendId } },
+      { new: true }
     )
       .then((user) =>
         !user
