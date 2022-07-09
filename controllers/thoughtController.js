@@ -1,6 +1,5 @@
-const { Thought, User, Reaction } = require("../models");
+const { Thought, User } = require("../models");
 
-//   createReaction,
 //   deleteReaction,
 
 module.exports = {
@@ -24,7 +23,15 @@ module.exports = {
   // Create a thought
   createThought(req, res) {
     Thought.create(req.body)
-      .then((thought) => res.json(thought))
+      .then(async (thought) => {
+        const user = await User.findOneAndUpdate(
+          { username: req.body.username },
+          { $push: { thoughts: thought } },
+          { runValidators: true, new: true }
+        );
+        user.save();
+        res.json(thought);
+      })
       .catch((err) => {
         console.log(err);
         return res.status(500).json(err);
@@ -34,9 +41,10 @@ module.exports = {
   deleteSingleThought(req, res) {
     Thought.findOneAndDelete({ _id: req.params.thoughtId })
       .then((thought) =>
+        // need to delete from user as well
         !thought
           ? res.status(404).json({ message: "No thought with that ID" })
-          : Student.deleteMany({ _id: { $in: thought.students } })
+          : User.deleteMany({ _id: { $in: thought.users } })
       )
       .then(() => res.json({ message: "Thought deleted!" }))
       .catch((err) => res.status(500).json(err));
@@ -54,5 +62,21 @@ module.exports = {
           : res.json(thought)
       )
       .catch((err) => res.status(500).json(err));
+  },
+  // Create a reaction
+  createReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $push: { reactions: req.body } },
+      { runValidators: true, new: true }
+    )
+      .then((thought) => {
+        thought.save();
+        res.json(thought);
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json(err);
+      });
   },
 };

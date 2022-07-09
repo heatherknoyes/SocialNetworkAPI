@@ -1,6 +1,5 @@
 const { Schema } = require("mongoose");
 const ObjectId = require("mongodb").ObjectId;
-// const assignmentSchema = require('./Assignment');
 
 // Schema to create reaction schema
 const reactionSchema = new Schema(
@@ -21,7 +20,7 @@ const reactionSchema = new Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now,
+      default: Date.now(),
       // use a getter method to format timestamp on query
     },
   },
@@ -31,7 +30,5 @@ const reactionSchema = new Schema(
     },
   }
 );
-
-// const Reaction = model("reaction", reactionSchema);
 
 module.exports = reactionSchema;

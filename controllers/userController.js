@@ -1,6 +1,6 @@
 // ObjectId() method for converting studentId string into an ObjectId for querying database
 const { ObjectId } = require("mongoose").Types;
-const { User, Thought, Reaction } = require("../models");
+const { User, Thought } = require("../models");
 
 //   updateSingleUser,
 
@@ -40,7 +40,6 @@ module.exports = {
       .then(async (users) => {
         const userObj = {
           users,
-          // headCount: await headCount(),
         };
         return res.json(userObj);
       })
@@ -59,7 +58,6 @@ module.exports = {
           ? res.status(404).json({ message: "No user with that ID" })
           : res.json({
               user,
-              // grade: await grade(req.params.studentId),
             })
       )
       .catch((err) => {
@@ -101,10 +99,10 @@ module.exports = {
   // Add a friend to the user
   createFriend(req, res) {
     console.log("You are adding a friend");
-    console.log(req.body);
+    console.log(req.params.friendId);
     User.findOneAndUpdate(
-      { _id: req.params.studentId },
-      { $addToSet: { assignments: req.body } },
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.params.friendId } },
       { runValidators: true, new: true }
     )
       .then((user) =>
@@ -117,8 +115,8 @@ module.exports = {
   // Remove friend from a user
   deleteFriend(req, res) {
     User.findOneAndUpdate(
-      { _id: req.params.studentId },
-      { $pull: { assignment: { assignmentId: req.params.assignmentId } } },
+      { _id: req.params.userId },
+      { $pull: { friends: { friendId: req.params.friendId } } },
       { runValidators: true, new: true }
     )
       .then((user) =>

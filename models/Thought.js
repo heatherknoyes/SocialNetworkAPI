@@ -12,7 +12,7 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       required: true,
-      default: Date.now,
+      default: Date.now(),
       // getter method to format the timestamp on query
     },
     username: {
@@ -20,8 +20,6 @@ const thoughtSchema = new Schema(
       required: true,
     },
     reactions: [reactionSchema],
-
-    // need to add a virtual here for reactionCount that gets the length of the field above
   },
   {
     toJSON: {
@@ -29,6 +27,13 @@ const thoughtSchema = new Schema(
     },
   }
 );
+
+thoughtSchema
+  .virtual("reactionCount")
+  // Getter
+  .get(function () {
+    return this.reactions.length;
+  });
 
 const Thought = model("thought", thoughtSchema);
 

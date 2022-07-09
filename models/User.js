@@ -16,9 +16,18 @@ const userSchema = new Schema(
       required: true,
       match: /.+\@.+\..+/,
     },
-    thoughts: [thoughtSchema._id],
-    friends: [this._id],
-    // need to add a virtual here for friendCount that gets the length of the field above
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Thought",
+      },
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   {
     toJSON: {
@@ -26,6 +35,13 @@ const userSchema = new Schema(
     },
   }
 );
+
+userSchema
+  .virtual("friendCount")
+  // Getter
+  .get(function () {
+    return this.friends.length;
+  });
 
 const User = model("user", userSchema);
 
