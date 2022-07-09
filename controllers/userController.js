@@ -74,30 +74,28 @@ module.exports = {
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
+
   // Delete a user and remove them from the site
-  // deleteSingleUser(req, res) {
-  //   User.findOneAndRemove({ _id: req.params.userId })
-  //     .then((user) =>
-  //       !user
-  //         ? res.status(404).json({ message: "No such user exists" })
-  //         : Course.findOneAndUpdate(
-  //             { students: req.params.studentId },
-  //             { $pull: { students: req.params.studentId } },
-  //             { new: true }
-  //           )
-  //     )
-  //     .then((course) =>
-  //       !course
-  //         ? res.status(404).json({
-  //             message: "Student deleted, but no courses found",
-  //           })
-  //         : res.json({ message: "Student successfully deleted" })
-  //     )
-  //     .catch((err) => {
-  //       console.log(err);
-  //       res.status(500).json(err);
-  //     });
-  // },
+  async deleteSingleUser(req, res) {
+    try {
+      const removedUser = await User.findOneAndRemove({
+        _id: req.params.userId,
+      });
+      if (removedUser) {
+        const removedThoughts = await Thought.deleteMany({
+          _id: removedUser.thoughts,
+        });
+        res
+          .status(200)
+          .json({ message: "Removed user and associated thoughts" });
+      } else {
+        res.status(404).json({ message: "No such user exists" });
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(500).json(e);
+    }
+  },
 
   // Add a friend to the user
   createFriend(req, res) {
