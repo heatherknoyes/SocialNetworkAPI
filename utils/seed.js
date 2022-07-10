@@ -38,13 +38,14 @@ connection.once("open", async () => {
   // Add students to the collection and await the results
   await User.collection.insertMany(users);
 
-  for (let i = 0; i < 5; i++) {
-    // Add courses to the collection and await the results
-    await Thought.collection.insertOne({
-      thoughtText: `Test-${i}`,
-      username: getRandomUsername(),
-    });
-  }
+  // Thought seeds does not work at this time
+  // for (let i = 0; i < 5; i++) {
+  //   // Add courses to the collection and await the results
+  //   await Thought.collection.insertOne({
+  //     thoughtText: `Test-${i}`,
+  //     username: getRandomUsername(),
+  //   });
+  // }
 
   // Log out the seed data to indicate what should appear in the database
   console.table(users);

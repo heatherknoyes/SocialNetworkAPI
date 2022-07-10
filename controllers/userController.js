@@ -82,7 +82,7 @@ module.exports = {
         _id: req.params.userId,
       });
       if (removedUser) {
-        const removedThoughts = await Thought.deleteMany({
+        await Thought.deleteMany({
           _id: removedUser.thoughts,
         });
         res

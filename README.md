@@ -22,6 +22,7 @@ Note: The application has a cookie expiration of 5 minutes. If you click on any 
 Run the following command in order to be able to install the package for this code:
 
     npm install
+    npm run seed - note at this time the seed functionality does not work as intended
 
 ## Usage
 

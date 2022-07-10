@@ -13,7 +13,7 @@ const thoughtSchema = new Schema(
       type: Date,
       required: true,
       default: Date.now(),
-      // getter method to format the timestamp on query
+      get: formatDate,
     },
     username: {
       type: String,
@@ -24,6 +24,7 @@ const thoughtSchema = new Schema(
   {
     toJSON: {
       getters: true,
+      virtuals: true,
     },
   }
 );
@@ -34,6 +35,15 @@ thoughtSchema
   .get(function () {
     return this.reactions.length;
   });
+
+function formatDate(date) {
+  const stringDate = date.toLocaleString(undefined, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  return stringDate;
+}
 
 const Thought = model("thought", thoughtSchema);
 

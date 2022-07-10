@@ -1,6 +1,5 @@
 const { Thought, User } = require("../models");
-
-//   deleteReaction,
+const ObjectId = require("mongodb").ObjectId;
 
 module.exports = {
   // Get all thoughts
@@ -84,19 +83,19 @@ module.exports = {
         return res.status(500).json(err);
       });
   },
-  deleteReaction(req, res) {
-    Thought.findOneAndUpdate(
-      { _id: req.params.thoughtId },
-      { $pull: { reactions: req.params.reactionId } },
-      { new: true }
-    )
-      .then((thought) => {
-        // need to delete from user as well
-        if (!thought) {
-          res.status(404).json({ message: "No thought with that ID" });
-        }
-      })
-      .then(() => res.json(thought))
-      .catch((err) => res.status(500).json(err));
+  async deleteReaction(req, res) {
+    try {
+      const thought = await Thought.findOneAndUpdate(
+        { _id: ObjectId(req.params.thoughtId) },
+        { $pull: { reactions: { reactionId: req.params.reactionId } } },
+        { new: true }
+      );
+      if (!thought) {
+        res.status(404).json({ message: "No thought with that ID" });
+      }
+      res.json(thought);
+    } catch (e) {
+      res.status(500).json(e);
+    }
   },
 };
