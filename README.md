@@ -6,7 +6,7 @@ The motivation for this project was to create a backend API based around the ide
 
 Note: The application has a cookie expiration of 5 minutes. If you click on any button after that time the application will ask you to sign in again.
 
-[Functioning Application Video](linkhere)
+[Functioning Application Video](https://drive.google.com/file/d/1K5tsrJPrgCTMm7Vk9I6KEkXmVYOfsNsZ/view)
 
 ## Table of Contents
 
