@@ -4,8 +4,6 @@
 
 The motivation for this project was to create a backend API based around the idea of a social network. It is based around the idea of users and thoughts. With the utilization of MongoDB and Mongoose I created CRUD routes for many different areas that you can see in the video within Insomnia below. I utilized Express.js for my middleware and used Node as the package manager. Potentially in the future I would like to create a simple front end for the API so that I can see the actions happening visually instead of through the API.
 
-Note: The application has a cookie expiration of 5 minutes. If you click on any button after that time the application will ask you to sign in again.
-
 [Functioning Application Video](https://drive.google.com/file/d/1K5tsrJPrgCTMm7Vk9I6KEkXmVYOfsNsZ/view)
 
 ## Table of Contents
